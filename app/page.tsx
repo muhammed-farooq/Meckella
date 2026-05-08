@@ -10,7 +10,7 @@ import { CollectionShowcase } from "@/components/ui/CollectionShowcase";
 import { client } from "@/sanity/lib/client";
 
 async function getHomePageData() {
-  const query = `*[_type == "homePage"][0] {
+  const homePageQuery = `*[_type == "homePage"][0] {
     hero {
       heading,
       subheading,
@@ -38,8 +38,21 @@ async function getHomePageData() {
       baseNotes
     }
   }`;
+
+  const allProductsQuery = `*[_type == "product" && featured == true][0...5] {
+    name,
+    "slug": slug.current,
+    description,
+    "imageUrl": image.asset->url
+  }`;
+
   try {
-    return await client.fetch(query);
+    const [homePageData, showcaseProducts] = await Promise.all([
+      client.fetch(homePageQuery),
+      client.fetch(allProductsQuery)
+    ]);
+
+    return { ...homePageData, showcaseProducts };
   } catch (error) {
     console.error("Sanity fetch failed:", error);
     return null;
@@ -57,28 +70,29 @@ export default async function Home() {
   
   const promotionalBanners = data?.promotionalBanners || [];
   const marqueeItems = data?.marquee || ["Cruelty Free", "Long Lasting", "Sustainably Sourced", "Premium Quality"];
-  const featuredProducts = (data?.featuredProducts || []).slice(0, 5);
+  const gridProducts = data?.featuredProducts || [];
+  const showcaseProducts = data?.showcaseProducts || [];
   const moods = data?.moods || [];
   const craftsmanship = data?.craftsmanship || [];
 
   return (
     <div className="flex flex-col w-full">
       {/* Cinematic Hero Section with Crossfade */}
-      <section className="relative h-[100vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[75svh] md:min-h-[80svh] lg:min-h-[85vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[#0B0B0B]">
           <HeroCrossfade images={heroBgImages} />
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#0B0B0B]/40 via-transparent to-[#0B0B0B] z-10" />
         
-        <div className="relative z-20 flex flex-col items-center text-center px-[20px] max-w-5xl mx-auto pt-24">
+        <div className="relative z-20 flex flex-col items-center text-center px-[20px] max-w-5xl mx-auto pt-16 md:pt-24">
           <SplitText 
             text={heroSubheading} 
-            className="text-[#C9A96E] uppercase tracking-[0.3em] text-sm sm:text-base mb-6"
+            className="text-[#C9A96E] uppercase tracking-[0.3em] text-xs sm:text-sm md:text-base mb-4 md:mb-6"
             delay={1}
           />
           <SplitText 
             text={heroHeading}
-            className="font-serif text-5xl sm:text-7xl lg:text-8xl text-[#EDEDED] mb-8 leading-tight"
+            className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-[#EDEDED] mb-6 md:mb-8 leading-tight"
             delay={2}
           />
           <p className="font-sans text-[#A1A1A1] text-base sm:text-lg max-w-2xl mb-12 opacity-0 animate-fade-in-up" style={{ animationDelay: '1.2s', animationFillMode: 'forwards' }}>
@@ -102,7 +116,7 @@ export default async function Home() {
         <section className="py-[120px] px-[20px] lg:px-[70px] max-w-[1400px] mx-auto w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {promotionalBanners.map((banner: any, idx: number) => (
-              <Link href={banner.linkUrl || "/products"} key={idx} className="relative group overflow-hidden block aspect-[16/9] md:aspect-square lg:aspect-[16/10] bg-[#1a1a1a]">
+              <Link href={banner.linkUrl || "/products"} key={idx} className="relative group overflow-hidden block aspect-square bg-[#1a1a1a]">
                 <div className="absolute inset-0 z-10 bg-black/40 group-hover:bg-black/20 transition-colors duration-700" />
                 {banner.imageUrl && (
                   <Image 
@@ -127,11 +141,13 @@ export default async function Home() {
         </section>
       )}
 
-      {/* Interactive Collection Showcase */}
-      {featuredProducts.length === 5 && (
-        <CollectionShowcase products={featuredProducts} />
+      {/* Interactive Collection Showcase (The Accordion) */}
+      {showcaseProducts.length > 0 && (
+        <CollectionShowcase products={showcaseProducts} />
       )}
-      {featuredProducts.length > 0 && featuredProducts.length !== 5 && (
+
+      {/* Asymmetric Featured Products (The Standard Grid) */}
+      {gridProducts.length > 0 && (
         <section className="py-[120px] px-[20px] lg:px-[70px] max-w-[1400px] mx-auto w-full bg-[#0B0B0B]">
           <div className="flex flex-col items-center text-center mb-24">
             <h2 className="font-serif text-4xl sm:text-5xl text-[#EDEDED] mb-6">Signature Collection</h2>
@@ -139,7 +155,7 @@ export default async function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-24">
-            {featuredProducts.map((product: any, index: number) => (
+            {gridProducts.map((product: any, index: number) => (
               <div 
                 key={product.slug} 
                 className={`transition-all duration-1000 ${
@@ -149,6 +165,14 @@ export default async function Home() {
                 <CardProduct {...product} />
               </div>
             ))}
+          </div>
+          
+          <div className="mt-32 flex justify-center">
+            <Link href="/products">
+              <Button variant="ghost" className="uppercase tracking-widest text-sm border-b border-[#C9A96E] rounded-none px-0 py-1 hover:bg-transparent transition-all hover:tracking-[0.25em]">
+                Discover All Fragrances
+              </Button>
+            </Link>
           </div>
         </section>
       )}
@@ -164,7 +188,7 @@ export default async function Home() {
 
              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8">
                {moods.map((mood: any, idx: number) => (
-                 <div key={idx} className={`relative group overflow-hidden bg-[#1a1a1a] ${idx === 0 ? "md:row-span-2 aspect-square md:aspect-auto" : "aspect-[4/3]"}`}>
+                 <div key={idx} className={`relative group overflow-hidden bg-[#1a1a1a] ${idx === 0 ? "md:row-span-2 aspect-square md:aspect-[4/5]" : "aspect-[4/3]"}`}>
                     <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0B0B0B] via-[#0B0B0B]/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-700" />
                     {mood.imageUrl && (
                       <Image 

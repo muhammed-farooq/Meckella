@@ -37,13 +37,27 @@ export const aboutPage = defineType({
       ],
     }),
     defineField({
-      name: "founder",
-      title: "The Founder / The Nose",
+      name: "promise",
+      title: "The Promise (e.g. 8 Hours of Presence)",
       type: "object",
       fields: [
-        { name: "name", title: "Founder Name", type: "string" },
-        { name: "bio", title: "Biography / Vision", type: "text" },
-        { name: "image", title: "Founder Portrait", type: "image", options: { hotspot: true } },
+        { name: "heading", title: "Heading", type: "string" },
+        { name: "text", title: "Text", type: "text" },
+      ],
+    }),
+    defineField({
+      name: "founders",
+      title: "The Founders / The Noses",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            { name: "name", title: "Founder Name", type: "string" },
+            { name: "bio", title: "Biography / Vision", type: "text" },
+            { name: "image", title: "Founder Portrait", type: "image", options: { hotspot: true } },
+          ],
+        }
       ],
     }),
   ],

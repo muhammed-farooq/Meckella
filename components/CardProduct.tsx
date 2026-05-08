@@ -45,33 +45,10 @@ export function CardProduct({
         {/* Dark film that slides up slightly more intensely */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
         
-        {/* Embedded Scent Notes Reveal */}
-        {hasNotes ? (
-          <div className="absolute inset-x-0 bottom-0 p-6 flex flex-col gap-3 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700">
-             {topNotes && topNotes[0] && (
-               <div className="flex justify-between border-b border-white/10 pb-2">
-                 <span className="text-[#C9A96E] text-[10px] uppercase tracking-[0.2em]">Top</span>
-                 <span className="text-[#EDEDED] text-xs font-serif">{topNotes[0]}</span>
-               </div>
-             )}
-             {middleNotes && middleNotes[0] && (
-               <div className="flex justify-between border-b border-white/10 pb-2">
-                 <span className="text-[#C9A96E] text-[10px] uppercase tracking-[0.2em]">Heart</span>
-                 <span className="text-[#EDEDED] text-xs font-serif">{middleNotes[0]}</span>
-               </div>
-             )}
-             {baseNotes && baseNotes[0] && (
-               <div className="flex justify-between">
-                 <span className="text-[#C9A96E] text-[10px] uppercase tracking-[0.2em]">Base</span>
-                 <span className="text-[#EDEDED] text-xs font-serif">{baseNotes[0]}</span>
-               </div>
-             )}
-          </div>
-        ) : (
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-            <span className="text-[#C9A96E] uppercase tracking-widest text-xs border border-[#C9A96E] px-8 py-3 bg-[#0B0B0B]/50 backdrop-blur-sm">Discover</span>
-          </div>
-        )}
+        {/* Clean Discover Hover Reveal */}
+        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+          <span className="text-[#C9A96E] uppercase tracking-widest text-xs border border-[#C9A96E] px-8 py-3 bg-[#0B0B0B]/50 backdrop-blur-sm">Discover</span>
+        </div>
       </Link>
       
       <div className="mt-8 flex flex-col items-center text-center">

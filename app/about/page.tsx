@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { client } from "@/sanity/lib/client";
+import { FounderCarousel } from "@/components/ui/FounderCarousel";
 
 async function getAboutPageData() {
   const query = `*[_type == "aboutPage"][0] {
@@ -11,7 +12,10 @@ async function getAboutPageData() {
     ingredients {
       heading, text, "imageUrl": image.asset->url
     },
-    founder {
+    promise {
+      heading, text
+    },
+    founders[] {
       name, bio, "imageUrl": image.asset->url
     }
   }`;
@@ -43,12 +47,18 @@ export default async function AboutPage() {
     imageUrl: null
   };
 
-  const founder = data?.founder || null;
+  const promise = data?.promise || {
+    heading: "The Meckella Standard: 8 Hours of Presence",
+    text: "A true luxury fragrance shouldn't fade before your day is done. Every Meckella Eau de Parfum is formulated with a high oil concentration, specifically engineered to provide an extraordinary 8+ hours of longevity. Whether you are commanding a boardroom or exploring the city at night, your essence will remain bold, captivating, and distinctly yours."
+  };
+
+  // Fallback to empty array if no founders are set yet
+  const founders = data?.founders || [];
 
   return (
     <div className="w-full flex flex-col min-h-screen bg-[#0B0B0B]">
       {/* Hero Section */}
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[50vh] md:min-h-[60vh] flex items-center justify-center overflow-hidden">
          <div className="absolute inset-0 bg-[#1A1A1A]">
             {headerBg ? (
               <Image 
@@ -63,9 +73,9 @@ export default async function AboutPage() {
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0B] via-[#0B0B0B]/50 to-transparent z-10" />
          </div>
-         <div className="relative z-20 text-center px-[20px] max-w-4xl mx-auto pt-24">
-            <span className="text-[#C9A96E] uppercase tracking-widest text-sm mb-6 block">Our Heritage</span>
-            <h1 className="font-serif text-5xl md:text-7xl text-[#EDEDED]">{pageTitle}</h1>
+         <div className="relative z-20 text-center px-[20px] max-w-4xl mx-auto pt-16 md:pt-24">
+            <span className="text-[#C9A96E] uppercase tracking-widest text-xs mb-4 md:mb-6 block">Our Heritage</span>
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-7xl text-[#EDEDED]">{pageTitle}</h1>
          </div>
       </section>
 
@@ -107,35 +117,19 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* The Founder (Optional if provided in CMS) */}
-      {founder?.name && (
-        <section className="py-24 lg:py-40 px-[20px] lg:px-[70px] max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-             <div className="lg:col-span-5 aspect-[3/4] bg-[#1A1A1A] relative overflow-hidden group">
-               {founder.imageUrl ? (
-                 <Image 
-                   src={founder.imageUrl} 
-                   alt={founder.name} 
-                   fill 
-                   className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" 
-                 />
-               ) : (
-                 <div className="absolute inset-0 bg-gradient-to-tr from-[#333] to-[#111]" />
-               )}
-             </div>
-             <div className="lg:col-span-7 flex flex-col gap-8 lg:pl-12">
-               <span className="text-[#C9A96E] uppercase tracking-[0.25em] text-xs">The Nose</span>
-               <h3 className="font-serif text-5xl lg:text-6xl text-[#EDEDED]">{founder.name}</h3>
-               <p className="text-[#A1A1A1] text-lg leading-relaxed whitespace-pre-line max-w-2xl">
-                 {founder.bio}
-               </p>
-               <div className="mt-8">
-                 <div className="font-serif text-3xl text-[#C9A96E]/50 italic">M.</div>
-               </div>
-             </div>
-          </div>
-        </section>
-      )}
+      {/* The Promise Section */}
+      <section className="py-24 lg:py-32 px-[20px] lg:px-[70px] max-w-5xl mx-auto text-center">
+        <span className="text-[#C9A96E] uppercase tracking-[0.25em] text-xs mb-6 block">Our Commitment</span>
+        <h2 className="font-serif text-3xl md:text-5xl text-[#EDEDED] mb-8 leading-relaxed">
+          {promise.heading}
+        </h2>
+        <p className="text-[#A1A1A1] text-lg leading-loose font-sans max-w-3xl mx-auto">
+          {promise.text}
+        </p>
+      </section>
+
+      {/* The Founders (Restored Layout with Fade/Pagination) */}
+      <FounderCarousel founders={founders} />
 
       {/* CTA */}
       <section className="py-32 text-center px-[20px] bg-[#0f0f0f] border-t border-white/5">

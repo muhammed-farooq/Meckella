@@ -88,6 +88,27 @@ export const product = defineType({
       },
     }),
     defineField({
+      name: 'gallery',
+      title: 'Product Image Gallery',
+      type: 'array',
+      of: [{ type: 'image', options: { hotspot: true } }],
+      description: 'Add multiple photos (e.g., lifestyle, packaging, angles) to show in a grid on the product page.',
+    }),
+    defineField({
+      name: 'galleryGridColumns',
+      title: 'Gallery Grid Columns',
+      type: 'number',
+      description: 'Select how many columns the gallery should have on desktop (1, 2, or 3).',
+      options: {
+        list: [
+          { title: '1 Column', value: 1 },
+          { title: '2 Columns', value: 2 },
+          { title: '3 Columns', value: 3 },
+        ],
+      },
+      initialValue: 3,
+    }),
+    defineField({
       name: 'amazonLink',
       title: 'Amazon Affiliate Link',
       type: 'url',

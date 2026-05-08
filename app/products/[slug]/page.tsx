@@ -18,6 +18,8 @@ async function getProduct(slug: string) {
     keyHighlights,
     accordionSpecs,
     "imageUrl": image.asset->url,
+    "galleryUrls": gallery[].asset->url,
+    galleryGridColumns,
     amazonLink
   }`;
   try {
@@ -181,7 +183,46 @@ export default async function ProductDetailsPage({ params, searchParams }: { par
         </div>
       </div>
       
+      {/* Product Image Gallery */}
+      {product.galleryUrls && product.galleryUrls.length > 0 && (
+        <section className="w-full py-16 bg-[#0B0B0B]">
+          <div className="max-w-7xl mx-auto px-[20px] lg:px-[70px]">
+            <div className={`grid grid-cols-1 ${
+              product.galleryGridColumns === 1 ? 'md:grid-cols-1' : 
+              product.galleryGridColumns === 2 ? 'md:grid-cols-2' : 
+              'md:grid-cols-3'
+            } gap-4 lg:gap-8 items-start`}>
+              {product.galleryUrls.map((url: string, index: number) => (
+                <div key={index} className="relative bg-[#1a1a1a] overflow-hidden group rounded-md">
+                  <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500 z-10" />
+                  <Image 
+                    src={url}
+                    alt={`${product.name} Gallery Image ${index + 1}`}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    style={{ width: '100%', height: 'auto' }}
+                    className="group-hover:scale-105 transition-transform duration-[1200ms]"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <HowToUse />
+
+      {/* Floating Sticky Amazon Button */}
+      {product.amazonLink && (
+        <div className="fixed bottom-0 left-0 w-full z-50 p-4 md:p-6 bg-gradient-to-t from-[#0B0B0B] to-transparent pointer-events-none flex justify-center md:justify-end">
+          <Link href={product.amazonLink} target="_blank" rel="noopener noreferrer" className="pointer-events-auto shadow-[0_0_40px_rgba(201,169,110,0.3)]">
+            <Button size="lg" className="uppercase tracking-widest font-sans px-10 py-6 rounded-full bg-[#C9A96E] hover:bg-[#b0935d] text-[#0B0B0B] border-none">
+              Shop on Amazon
+            </Button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
