@@ -18,8 +18,10 @@ async function getProduct(slug: string) {
     keyHighlights,
     accordionSpecs,
     "imageUrl": image.asset->url,
-    "galleryUrls": gallery[].asset->url,
-    galleryGridColumns,
+    "gallery": gallery[] {
+      "url": asset->url,
+      "mimeType": asset->mimeType
+    },
     amazonLink
   }`;
   try {
@@ -183,29 +185,41 @@ export default async function ProductDetailsPage({ params, searchParams }: { par
         </div>
       </div>
       
-      {/* Product Image Gallery */}
-      {product.galleryUrls && product.galleryUrls.length > 0 && (
+      {/* Product Media Gallery */}
+      {product.gallery && product.gallery.length > 0 && (
         <section className="w-full py-16 bg-[#0B0B0B]">
           <div className="max-w-7xl mx-auto px-[20px] lg:px-[70px]">
-            <div className={`grid grid-cols-1 ${
-              product.galleryGridColumns === 1 ? 'md:grid-cols-1' : 
-              product.galleryGridColumns === 2 ? 'md:grid-cols-2' : 
-              'md:grid-cols-3'
-            } gap-4 lg:gap-8 items-start`}>
-              {product.galleryUrls.map((url: string, index: number) => (
-                <div key={index} className="relative bg-[#1a1a1a] overflow-hidden group rounded-md">
-                  <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500 z-10" />
-                  <Image 
-                    src={url}
-                    alt={`${product.name} Gallery Image ${index + 1}`}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    style={{ width: '100%', height: 'auto' }}
-                    className="group-hover:scale-105 transition-transform duration-[1200ms]"
-                  />
-                </div>
-              ))}
+            <div className="flex flex-col gap-8 lg:gap-12 w-full items-center">
+              {product.gallery.map((media: any, index: number) => {
+                const isVideo = media.mimeType?.startsWith('video/');
+                
+                return (
+                  <div key={index} className="relative bg-[#1a1a1a] overflow-hidden group rounded-md w-full">
+                    <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none" />
+                    
+                    {isVideo ? (
+                      <video 
+                        src={media.url}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="w-full h-auto object-cover"
+                      />
+                    ) : (
+                      <Image 
+                        src={media.url}
+                        alt={`${product.name} Media ${index + 1}`}
+                        width={1200}
+                        height={675}
+                        sizes="100vw"
+                        style={{ width: '100%', height: 'auto' }}
+                        className="group-hover:scale-105 transition-transform duration-[1200ms]"
+                      />
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>

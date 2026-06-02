@@ -113,7 +113,7 @@ export default async function Home() {
 
       {/* Promotional Sub-Banners (Grid) */}
       {promotionalBanners.length > 0 && (
-        <section className="py-[120px] px-[20px] lg:px-[70px] max-w-[1400px] mx-auto w-full">
+        <section className="py-16 md:py-[120px] px-[20px] lg:px-[70px] max-w-[1400px] mx-auto w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {promotionalBanners.map((banner: any, idx: number) => (
               <Link href={banner.linkUrl || "/products"} key={idx} className="relative group overflow-hidden block aspect-square bg-[#1a1a1a]">
@@ -146,42 +146,13 @@ export default async function Home() {
         <CollectionShowcase products={showcaseProducts} />
       )}
 
-      {/* Asymmetric Featured Products (The Standard Grid) */}
-      {gridProducts.length > 0 && (
-        <section className="py-[120px] px-[20px] lg:px-[70px] max-w-[1400px] mx-auto w-full bg-[#0B0B0B]">
-          <div className="flex flex-col items-center text-center mb-24">
-            <h2 className="font-serif text-4xl sm:text-5xl text-[#EDEDED] mb-6">Signature Collection</h2>
-            <div className="w-12 h-px bg-[#C9A96E]"></div>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-24">
-            {gridProducts.map((product: any, index: number) => (
-              <div 
-                key={product.slug} 
-                className={`transition-all duration-1000 ${
-                  index % 3 === 1 ? "lg:mt-32" : "" // Push the middle column down for asymmetric look
-                } ${index % 3 === 2 ? "lg:mt-16" : ""}`}
-              >
-                <CardProduct {...product} />
-              </div>
-            ))}
-          </div>
-          
-          <div className="mt-32 flex justify-center">
-            <Link href="/products">
-              <Button variant="ghost" className="uppercase tracking-widest text-sm border-b border-[#C9A96E] rounded-none px-0 py-1 hover:bg-transparent transition-all hover:tracking-[0.25em]">
-                Discover All Fragrances
-              </Button>
-            </Link>
-          </div>
-        </section>
-      )}
 
       {/* Bento Grid: Designed For Every Mood */}
       {moods.length > 0 && (
-        <section className="py-[120px] bg-[#0f0f0f] border-t border-white/5">
+        <section className="py-16 md:py-[120px] bg-[#0f0f0f] border-t border-white/5">
           <div className="max-w-[1400px] mx-auto px-[20px] lg:px-[70px]">
-             <div className="mb-20">
+             <div className="mb-10 md:mb-20">
                <h2 className="font-serif text-4xl sm:text-5xl text-[#EDEDED] mb-6">A Study in Atmosphere</h2>
                <div className="w-12 h-px bg-[#C9A96E]"></div>
              </div>
@@ -211,13 +182,13 @@ export default async function Home() {
 
       {/* Craftsmanship Timeline (LOREN Inspiration) */}
       {craftsmanship.length > 0 && (
-        <section className="py-[120px] lg:py-[160px] px-[20px] lg:px-[70px] max-w-5xl mx-auto w-full">
-          <div className="text-center mb-24">
+        <section className="py-16 md:py-[120px] lg:py-[160px] px-[20px] lg:px-[70px] max-w-5xl mx-auto w-full">
+          <div className="text-center mb-12 md:mb-24">
             <span className="text-[#C9A96E] uppercase tracking-[0.3em] text-xs mb-6 block">The Process</span>
             <h2 className="font-serif text-4xl sm:text-5xl text-[#EDEDED] mb-6">Tradition & Innovation</h2>
           </div>
 
-          <div className="flex flex-col gap-16 relative before:absolute before:inset-0 before:ml-[23px] md:before:mx-auto md:before:w-px before:h-full before:bg-[#333]">
+          <div className="flex flex-col gap-10 md:gap-16 relative before:absolute before:inset-0 before:ml-[23px] md:before:mx-auto md:before:w-px before:h-full before:bg-[#333]">
              {craftsmanship.map((item: any, idx: number) => (
                <div key={idx} className={`relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group w-full`}>
                  {/* Node */}

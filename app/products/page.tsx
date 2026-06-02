@@ -37,10 +37,17 @@ export default async function ProductsPage() {
         </div>
       </div>
 
-      <div className="py-20 px-[20px] lg:px-[70px] max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-20 gap-x-12">
-          {products.map((product: any) => (
-            <CardProduct key={product.slug} {...product} />
+      <div className="py-12 md:py-20 px-[20px] lg:px-[70px] max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 md:gap-y-24">
+          {products.map((product: any, index: number) => (
+            <div 
+              key={product.slug} 
+              className={`transition-all duration-1000 ${
+                index % 3 === 1 ? "lg:mt-32" : "" // Push the middle column down for asymmetric look
+              } ${index % 3 === 2 ? "lg:mt-16" : ""}`}
+            >
+              <CardProduct {...product} />
+            </div>
           ))}
         </div>
       </div>
