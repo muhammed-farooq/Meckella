@@ -25,7 +25,7 @@ async function getHomePageData() {
       step, title, description
     },
     moods[] {
-      title, description, "imageUrl": image.asset->url
+      title, description, "imageUrl": image.asset->url, "productSlug": linkedProduct->slug.current
     },
     featuredProducts[]-> {
       name,
@@ -158,23 +158,42 @@ export default async function Home() {
              </div>
 
              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8">
-               {moods.map((mood: any, idx: number) => (
-                 <div key={idx} className={`relative group overflow-hidden bg-[#1a1a1a] ${idx === 0 ? "md:row-span-2 aspect-square md:aspect-[4/5]" : "aspect-[4/3]"}`}>
-                    <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0B0B0B] via-[#0B0B0B]/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-700" />
-                    {mood.imageUrl && (
-                      <Image 
-                        src={mood.imageUrl}
-                        alt={mood.title}
-                        fill
-                        className="object-cover object-center group-hover:scale-105 transition-transform duration-1000"
-                      />
-                    )}
-                    <div className="absolute bottom-0 left-0 p-8 z-20 w-full">
-                       <h3 className="font-serif text-3xl text-[#EDEDED] mb-3">{mood.title}</h3>
-                       <p className="text-[#A1A1A1] text-sm max-w-sm group-hover:text-[#EDEDED] transition-colors">{mood.description}</p>
-                    </div>
-                 </div>
-               ))}
+               {moods.map((mood: any, idx: number) => {
+                 const className = `relative group overflow-hidden block bg-[#1a1a1a] ${idx === 0 ? "md:row-span-2 aspect-square md:aspect-[4/5]" : "aspect-[4/3]"}`;
+                 
+                 const content = (
+                   <>
+                     <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0B0B0B] via-[#0B0B0B]/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-700" />
+                     {mood.imageUrl && (
+                       <Image 
+                         src={mood.imageUrl}
+                         alt={mood.title}
+                         fill
+                         className="object-cover object-center group-hover:scale-105 transition-transform duration-1000"
+                       />
+                     )}
+                     <div className="absolute bottom-0 left-0 p-8 z-20 w-full">
+                        <h3 className="font-serif text-3xl text-[#EDEDED] mb-3 group-hover:text-[#C9A96E] transition-colors">{mood.title}</h3>
+                        <p className="text-[#A1A1A1] text-sm max-w-sm group-hover:text-[#EDEDED] transition-colors">{mood.description}</p>
+                     </div>
+                     {mood.productSlug && (
+                       <div className="absolute top-6 right-6 z-20 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                         <span className="bg-[#0B0B0B]/80 backdrop-blur-sm border border-white/10 text-[#C9A96E] text-[10px] uppercase tracking-widest px-4 py-2 hover:bg-[#C9A96E] hover:text-[#0B0B0B] transition-colors">Discover Fragrance</span>
+                       </div>
+                     )}
+                   </>
+                 );
+
+                 return mood.productSlug ? (
+                   <Link href={`/products/${mood.productSlug}`} key={idx} className={className}>
+                     {content}
+                   </Link>
+                 ) : (
+                   <div key={idx} className={className}>
+                     {content}
+                   </div>
+                 );
+               })}
              </div>
           </div>
         </section>

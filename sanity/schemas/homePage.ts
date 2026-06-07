@@ -72,6 +72,7 @@ export const homePage = defineType({
             { name: "title", title: "Mood Title", type: "string" },
             { name: "description", title: "Description", type: "text" },
             { name: "image", title: "Atmosphere Image", type: "image", options: { hotspot: true } },
+            { name: "linkedProduct", title: "Linked Product (Optional)", type: "reference", to: [{ type: "product" }], description: "Select a product to link this mood card to." },
           ],
         },
       ],
