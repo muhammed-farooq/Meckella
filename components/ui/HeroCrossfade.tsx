@@ -22,7 +22,7 @@ export function HeroCrossfade({ images }: HeroCrossfadeProps) {
   }, [images]);
 
   if (!images || images.length === 0) {
-    return <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#C9A96E]/20 via-[#0B0B0B] to-[#0B0B0B] opacity-50" />;
+    return <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#C9A96E]/20 via-background to-[#0B0B0B] opacity-50" />;
   }
 
   return (

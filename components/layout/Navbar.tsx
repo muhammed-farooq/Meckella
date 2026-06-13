@@ -23,13 +23,13 @@ export function Navbar() {
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 w-full z-50 bg-[#0B0B0B]/80 backdrop-blur-md border-b border-white/5"
+      className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-white/5"
     >
       <div className="max-w-7xl mx-auto px-[20px] lg:px-[70px] h-24 flex items-center justify-between">
-        <Link href="/" className="font-serif text-2xl tracking-widest text-[#EDEDED] uppercase">
-          Meckella
+        <Link href="/" className="font-serif text-3xl tracking-widest animate-pulse text-accent-gold  uppercase">
+          MECKELLA
         </Link>
-        
+
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-8">
           {links.map((link) => (
@@ -37,8 +37,8 @@ export function Navbar() {
               key={link.path}
               href={link.path}
               className={cn(
-                "text-sm uppercase tracking-wider transition-colors hover:text-[#C9A96E]",
-                pathname === link.path ? "text-[#C9A96E]" : "text-[#A1A1A1]"
+                "text-sm uppercase tracking-wider transition-colors hover:text-accent-gold",
+                pathname === link.path ? "text-accent-gold" : "text-text-muted"
               )}
             >
               {link.name}
@@ -47,8 +47,8 @@ export function Navbar() {
         </nav>
 
         {/* Mobile Toggle */}
-        <button 
-          className="md:hidden text-[#EDEDED] p-2"
+        <button
+          className="md:hidden text-foreground p-2"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? (
@@ -62,11 +62,11 @@ export function Navbar() {
       {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#0B0B0B] border-b border-white/5 overflow-hidden"
+            className="md:hidden bg-background border-b border-white/5 overflow-hidden"
           >
             <nav className="flex flex-col py-6 px-[20px] gap-6">
               {links.map((link) => (
@@ -76,7 +76,7 @@ export function Navbar() {
                   onClick={() => setIsOpen(false)}
                   className={cn(
                     "text-lg uppercase tracking-widest transition-colors",
-                    pathname === link.path ? "text-[#C9A96E]" : "text-[#A1A1A1]"
+                    pathname === link.path ? "text-accent-gold" : "text-[#A1A1A1]"
                   )}
                 >
                   {link.name}

@@ -15,8 +15,8 @@ interface ProductCardProps {
   baseNotes?: string[];
 }
 
-export function CardProduct({ 
-  name, slug, description, imageUrl, amazonLink, topNotes, middleNotes, baseNotes 
+export function CardProduct({
+  name, slug, description, imageUrl, amazonLink, topNotes, middleNotes, baseNotes
 }: ProductCardProps) {
   const hasNotes = (topNotes && topNotes.length > 0) || (middleNotes && middleNotes.length > 0) || (baseNotes && baseNotes.length > 0);
 
@@ -41,23 +41,23 @@ export function CardProduct({
             {name}
           </div>
         )}
-        
+
         {/* Dark film that slides up slightly more intensely */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-        
+
         {/* Clean Discover Hover Reveal */}
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-          <span className="text-[#C9A96E] uppercase tracking-widest text-xs border border-[#C9A96E] px-8 py-3 bg-[#0B0B0B]/50 backdrop-blur-sm">Discover</span>
+          <span className="text-accent-gold uppercase tracking-widest text-xs border border-[#C9A96E] px-8 py-3 bg-background/50 backdrop-blur-sm">Discover</span>
         </div>
       </Link>
-      
+
       <div className="mt-8 flex flex-col items-center text-center">
-        <h3 className="font-serif text-3xl text-[#EDEDED] mb-3 group-hover:text-[#C9A96E] transition-colors duration-500">{name}</h3>
+        <h3 className="font-serif text-3xl text-foreground mb-3 group-hover:text-accent-gold transition-colors duration-500">{name}</h3>
         <p className="text-[#A1A1A1] text-sm line-clamp-2 max-w-[280px] mb-6 leading-relaxed hidden sm:block">{description}</p>
         <div className="flex items-center justify-center gap-6 mt-auto">
           <Link
-             href={`/products/${slug}`}
-             className="text-[#EDEDED] text-xs uppercase tracking-widest hover:text-[#C9A96E] transition-colors border-b border-transparent hover:border-[#C9A96E] pb-1"
+            href={`/products/${slug}`}
+            className="text-foreground text-xs uppercase tracking-widest hover:text-accent-gold transition-colors border-b border-transparent hover:border-[#C9A96E] pb-1"
           >
             Explore
           </Link>
@@ -68,7 +68,7 @@ export function CardProduct({
                 href={amazonLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#EDEDED] text-xs uppercase tracking-widest hover:text-[#C9A96E] transition-colors border-b border-transparent hover:border-[#C9A96E] pb-1"
+                className="text-foreground text-xs uppercase tracking-widest hover:text-accent-gold transition-colors border-b border-transparent hover:border-[#C9A96E] pb-1"
               >
                 Buy on Amazon
               </a>

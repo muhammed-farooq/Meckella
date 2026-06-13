@@ -17,7 +17,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     <>
       <Preloader />
       <Navbar />
-      <main className="flex-1 pt-24 bg-[#0B0B0B]">
+      <main className="flex-1 pt-24 bg-background">
         {children}
       </main>
       <Footer />

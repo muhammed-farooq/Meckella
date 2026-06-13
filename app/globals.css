@@ -5,8 +5,8 @@
   --color-foreground: #EDEDED;
   --color-accent-gold: #C9A96E;
   --color-text-muted: #A1A1A1;
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-montserrat);
+  --font-serif: var(--font-montserrat);
 }
 
 :root {

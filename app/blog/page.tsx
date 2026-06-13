@@ -26,9 +26,9 @@ export default async function BlogPage() {
   const posts = await getPosts();
 
   return (
-    <div className="w-full flex flex-col min-h-screen bg-[#0B0B0B]">
+    <div className="w-full flex flex-col min-h-screen bg-background">
       <section className="pt-32 pb-16 px-[20px] lg:px-[70px] max-w-7xl mx-auto w-full text-center">
-        <h1 className="font-serif text-5xl md:text-6xl text-[#EDEDED] mb-6">The Journal</h1>
+        <h1 className="font-serif text-5xl md:text-6xl text-foreground mb-6">The Journal</h1>
         <p className="text-[#A1A1A1] max-w-2xl mx-auto text-lg leading-relaxed">
           Musings on luxury, the art of perfumery, and the lifestyle of the bold.
         </p>
@@ -50,8 +50,8 @@ export default async function BlogPage() {
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0B]/80 to-transparent flex items-end p-6">
-                      <span className="text-[#C9A96E] uppercase tracking-widest text-xs">Article</span>
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent flex items-end p-6">
+                      <span className="text-accent-gold uppercase tracking-widest text-xs">Article</span>
                     </div>
                   )}
                 </div>
@@ -63,7 +63,7 @@ export default async function BlogPage() {
                       year: "numeric",
                     })}
                   </span>
-                  <h2 className="font-serif text-2xl text-[#EDEDED] group-hover:text-[#C9A96E] transition-colors">
+                  <h2 className="font-serif text-2xl text-foreground group-hover:text-accent-gold transition-colors">
                     {post.title}
                   </h2>
                 </div>

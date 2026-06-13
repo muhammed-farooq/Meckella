@@ -26,13 +26,12 @@ export function Accordion({ items }: { items: AccordionItemProps[] }) {
             onClick={() => toggle(index)}
             className="w-full py-5 flex justify-between items-center text-left focus:outline-none"
           >
-            <span className="font-sans text-[#EDEDED] uppercase tracking-widest text-sm">
+            <span className="font-sans text-foreground uppercase tracking-widest text-sm">
               {item.title}
             </span>
             <ChevronDown
-              className={`w-4 h-4 text-[#C9A96E] transition-transform duration-300 ${
-                openIndex === index ? "rotate-180" : ""
-              }`}
+              className={`w-4 h-4 text-accent-gold transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""
+                }`}
             />
           </button>
           <AnimatePresence>

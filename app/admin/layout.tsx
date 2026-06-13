@@ -9,7 +9,7 @@ export default function RootLayout({
       lang="en"
       className={` h-full antialiased`}
     >
-      <body className={`min-h-full flex flex-col font-sans antialiased text-[#EDEDED] `}>
+      <body className={`min-h-full flex flex-col font-sans antialiased text-foreground `}>
         {children}
       </body>
     </html>

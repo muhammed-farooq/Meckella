@@ -28,21 +28,21 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   }
 
   return (
-    <div className="w-full flex flex-col min-h-screen bg-[#0B0B0B]">
+    <div className="w-full flex flex-col min-h-screen bg-background">
       <article className="max-w-3xl mx-auto w-full px-[20px] pt-32 pb-24">
-        
+
         <header className="mb-16 text-center">
-          <span className="text-[#C9A96E] uppercase tracking-widest text-xs mb-6 block">
+          <span className="text-accent-gold uppercase tracking-widest text-xs mb-6 block">
             {new Date(post.publishedAt).toLocaleDateString("en-US", {
               month: "long",
               day: "numeric",
               year: "numeric",
             })}
           </span>
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-[#EDEDED] leading-tight mb-10">
+          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight mb-10">
             {post.title}
           </h1>
-          
+
           {post.imageUrl && (
             <div className="aspect-[16/9] w-full relative bg-[#1A1A1A] overflow-hidden mt-10">
               <Image
@@ -56,16 +56,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           )}
         </header>
 
-        <div className="prose prose-invert prose-p:text-[#A1A1A1] prose-h2:font-serif prose-h2:text-[#EDEDED] prose-h3:font-serif prose-a:text-[#C9A96E] max-w-none font-sans text-lg leading-loose">
+        <div className="prose prose-invert prose-p:text-[#A1A1A1] prose-h2:font-serif prose-h2:text-foreground prose-h3:font-serif prose-a:text-accent-gold max-w-none font-sans text-lg leading-loose">
           {post.content ? (
             <PortableText value={post.content} />
           ) : (
-             <p className="text-[#A1A1A1] italic text-center">Story coming soon...</p>
+            <p className="text-[#A1A1A1] italic text-center">Story coming soon...</p>
           )}
         </div>
 
         <div className="mt-24 pt-10 border-t border-white/5 flex justify-center">
-          <Link href="/blog" className="text-[#C9A96E] uppercase tracking-widest text-sm hover:text-[#EDEDED] transition-colors">
+          <Link href="/blog" className="text-accent-gold uppercase tracking-widest text-sm hover:text-foreground transition-colors">
             ← Back to Journal
           </Link>
         </div>
