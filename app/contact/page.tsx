@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/Button";
-
+import { ContactForm } from "./ContactForm";
 export const metadata = {
   title: "Contact - Meckella Luxe",
   description: "Get in touch with the House of Meckella.",
@@ -21,42 +20,7 @@ export default function ContactPage() {
           {/* Left: Contact Form */}
           <div className="bg-[#0f0f0f] border border-white/5 p-8 lg:p-12">
             <h2 className="font-serif text-3xl text-foreground mb-8">Send a Message</h2>
-            <form className="flex flex-col gap-6">
-              <div className="flex flex-col gap-2">
-                <label htmlFor="name" className="text-[#A1A1A1] text-xs uppercase tracking-widest">Full Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  className="bg-transparent border-b border-white/20 pb-2 text-foreground focus:outline-none focus:border-[#C9A96E] transition-colors font-sans"
-                  placeholder="Your Name"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label htmlFor="email" className="text-[#A1A1A1] text-xs uppercase tracking-widest">Email Address</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="bg-transparent border-b border-white/20 pb-2 text-foreground focus:outline-none focus:border-[#C9A96E] transition-colors font-sans"
-                  placeholder="name@example.com"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label htmlFor="message" className="text-[#A1A1A1] text-xs uppercase tracking-widest">Your Inquiry</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={4}
-                  className="bg-transparent border-b border-white/20 pb-2 text-foreground focus:outline-none focus:border-[#C9A96E] transition-colors font-sans resize-none"
-                  placeholder="How can we assist you today?"
-                ></textarea>
-              </div>
-
-              <Button type="button" className="mt-4 uppercase tracking-widest font-sans py-4 rounded-none bg-[#C9A96E] hover:bg-[#b0935d] text-[#0B0B0B] border-none w-full">
-                Submit Inquiry
-              </Button>
-            </form>
+            <ContactForm />
           </div>
 
           {/* Right: Info and Socials */}
