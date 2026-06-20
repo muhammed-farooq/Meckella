@@ -51,8 +51,8 @@ export function CollectionShowcase({ products }: CollectionShowcaseProps) {
       <div className="w-full flex flex-row md:flex-row overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none scrollbar-hide max-w-[1600px] mx-auto px-[20px] lg:px-[70px] gap-6 md:gap-0 h-[520px] md:h-[70vh] items-stretch">
         {products.slice(0, 5).map((product, index) => {
           const isHovered = hoveredIndex === index;
-          const bgGradient = productColors[index] || "bg-gradient-to-t from-[#333] to-transparent";
-          const highlightText = textColors[index] || "text-accent-gold";
+          const bgGradient = "bg-gradient-to-t from-[#333] to-transparent";
+          const highlightText = "text-accent-gold";
 
           return (
             <motion.div
