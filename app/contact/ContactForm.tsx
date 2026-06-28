@@ -2,13 +2,12 @@
 
 import { useActionState } from "react";
 import { Button } from "@/components/ui/Button";
-import { submitContactForm } from "./actions";
+import { submitContactForm, type FormState } from "./actions";
 
-const initialState = {
+const initialState: FormState = {
   success: false,
-  error: "",
-  message: "",
 };
+
 
 export function ContactForm() {
   const [state, formAction, isPending] = useActionState(submitContactForm, initialState);
