@@ -1,15 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react"; // Or similar icons if available, I'll use simple SVGs to be safe
 
-export function Navbar() {
+export function Navbar({ announcements = [] }: { announcements?: string[] }) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [announcementIdx, setAnnouncementIdx] = useState(0);
+
+  useEffect(() => {
+    if (!announcements || announcements.length <= 1) return;
+    const interval = setInterval(() => {
+      setAnnouncementIdx((prev) => (prev + 1) % announcements.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [announcements]);
 
   const links = [
     { name: "Home", path: "/" },
@@ -25,6 +34,22 @@ export function Navbar() {
       animate={{ y: 0 }}
       className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-white/5"
     >
+      {announcements && announcements.length > 0 && (
+        <div className="w-full bg-accent-gold text-[#0B0B0B] py-2 overflow-hidden flex justify-center items-center relative z-50">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={announcementIdx}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.5 }}
+              className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-center px-4"
+            >
+              {announcements[announcementIdx]}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      )}
       <div className="max-w-7xl mx-auto px-[20px] lg:px-[70px] h-24 flex items-center justify-between">
         <Link href="/" className="font-serif text-3xl tracking-widest animate-pulse text-accent-gold  uppercase">
           MECKELLA

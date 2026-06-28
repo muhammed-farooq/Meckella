@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import ClientLayout from "./ClientLayout";
+import { client } from "@/sanity/lib/client";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -25,18 +26,28 @@ export const metadata: Metadata = {
   manifest: '/favicon_io/site.webmanifest',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let announcements: string[] = [];
+  try {
+    const data = await client.fetch(`*[_type == "homePage"][0] { announcementBar }`, {}, { next: { revalidate: 60 } });
+    if (data?.announcementBar) {
+      announcements = data.announcementBar;
+    }
+  } catch (error) {
+    console.error("Failed to fetch announcements:", error);
+  }
+
   return (
     <html
       lang="en"
       className={`${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
-        <ClientLayout>
+        <ClientLayout announcements={announcements}>
           {children}
         </ClientLayout>
       </body>

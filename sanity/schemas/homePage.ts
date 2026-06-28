@@ -23,6 +23,13 @@ export const homePage = defineType({
       ],
     }),
     defineField({
+      name: "announcementBar",
+      title: "Announcement Bar Messages",
+      type: "array",
+      of: [{ type: "string" }],
+      description: "Messages to display in the header announcement bar. Leave empty to hide the bar.",
+    }),
+    defineField({
       name: "promotionalBanners",
       title: "Promotional Sub-Banners",
       type: "array",
