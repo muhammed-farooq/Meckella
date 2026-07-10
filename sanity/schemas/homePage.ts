@@ -92,6 +92,34 @@ export const homePage = defineType({
       description: "Manually select and order the products shown on the homepage.",
       validation: (rule) => rule.max(5),
     }),
+    defineField({
+      name: "socialLinks",
+      title: "Social Media Links",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            {
+              name: "platform",
+              title: "Platform Name",
+              type: "string",
+              description: "e.g. Instagram, TikTok, Facebook, Pinterest",
+            },
+            {
+              name: "url",
+              title: "URL",
+              type: "url",
+              description: "Full URL to your social profile",
+            },
+          ],
+          preview: {
+            select: { title: "platform", subtitle: "url" },
+          },
+        },
+      ],
+      description: "Social media links shown in the website footer.",
+    }),
   ],
   preview: {
     prepare() {

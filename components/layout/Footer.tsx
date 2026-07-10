@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 
-export function Footer() {
+type SocialLink = { platform: string; url: string };
+
+interface FooterProps {
+  socialLinks?: SocialLink[];
+}
+
+export function Footer({ socialLinks = [] }: FooterProps) {
   return (
     <footer className="border-t border-white/5 bg-background py-12 md:py-20 mt-auto">
       <div className="max-w-7xl mx-auto px-[20px] lg:px-[70px] grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 text-[#A1A1A1] text-center md:text-left">
@@ -25,13 +31,36 @@ export function Footer() {
         <div>
           <h4 className="font-sans text-sm uppercase tracking-widest text-foreground mb-4 md:mb-6">Connect</h4>
           <ul className="space-y-3 md:space-y-4 text-sm">
-            <li><Link href="/contact" className="hover:text-accent-gold transition-colors">Contact Us</Link></li>
-            <li><a href="#" className="hover:text-accent-gold transition-colors">Instagram</a></li>
-            <li><a href="#" className="hover:text-accent-gold transition-colors">TikTok</a></li>
+            <li>
+              <Link href="/contact" className="hover:text-accent-gold transition-colors">
+                Contact Us
+              </Link>
+            </li>
+            {socialLinks.length > 0 ? (
+              socialLinks.map((link) => (
+                <li key={link.platform}>
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-accent-gold transition-colors"
+                  >
+                    {link.platform}
+                  </a>
+                </li>
+              ))
+            ) : (
+              // Fallback placeholders shown when no links are set in Sanity
+              <>
+                <li><a href="#" className="hover:text-accent-gold transition-colors">Instagram</a></li>
+                <li><a href="#" className="hover:text-accent-gold transition-colors">TikTok</a></li>
+              </>
+            )}
           </ul>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto px-[20px] lg:px-[70px] mt-12 md:mt-20 pt-8 border-t border-white/5 text-xs flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+
+      <div className="max-w-7xl mx-auto px-[20px] lg:px-[70px] mt-12 md:mt-20 pt-8 border-t border-white/5 text-xs flex flex-col md:flex-row justify-between items-center text-center md:text-left text-[#A1A1A1]">
         <p>&copy; {new Date().getFullYear()} Meckella. All rights reserved.</p>
         <div className="space-x-4 mt-4 md:mt-0">
           <Link href="#" className="hover:text-foreground">Privacy Policy</Link>

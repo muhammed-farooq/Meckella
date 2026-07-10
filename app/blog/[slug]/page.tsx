@@ -3,11 +3,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PortableText } from "next-sanity";
 import { client } from "@/sanity/lib/client";
+import type { Metadata } from "next";
+
+const BASE_URL = "https://www.meckellaluxe.com";
 
 async function getPost(slug: string) {
   const query = `*[_type == "blog" && slug.current == $slug][0] {
     title,
     publishedAt,
+    excerpt,
     content,
     "imageUrl": image.asset->url
   }`;
@@ -18,6 +22,50 @@ async function getPost(slug: string) {
     return null;
   }
 }
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const post = await getPost(resolvedParams.slug);
+
+  if (!post) {
+    return { title: "Article Not Found" };
+  }
+
+  const description =
+    post.excerpt ||
+    `Read "${post.title}" on the Meckella Luxe Journal — insights, stories, and musings from the world of luxury perfumery.`;
+
+  return {
+    title: post.title,
+    description,
+    alternates: {
+      canonical: `${BASE_URL}/blog/${resolvedParams.slug}`,
+    },
+    openGraph: {
+      title: `${post.title} | Meckella Journal`,
+      description,
+      url: `${BASE_URL}/blog/${resolvedParams.slug}`,
+      type: "article",
+      publishedTime: post.publishedAt,
+      siteName: "Meckella Luxe",
+      images: post.imageUrl
+        ? [{ url: post.imageUrl, width: 1200, height: 630, alt: post.title }]
+        : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${post.title} | Meckella Journal`,
+      description,
+      images: post.imageUrl ? [post.imageUrl] : [],
+    },
+  };
+}
+
+
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;

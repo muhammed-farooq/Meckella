@@ -28,8 +28,27 @@ async function getAboutPageData() {
 }
 
 export const metadata = {
-  title: "Our Story - Meckella Luxe",
-  description: "Discover the heritage, philosophy, and exquisite ingredient sourcing behind Meckella perfumes.",
+  title: "Our Story — The Heritage of Meckella Luxe",
+  description:
+    "Discover the heritage, philosophy, and exquisite ingredient sourcing behind Meckella Luxe perfumes. From the Jasmine fields of Grasse to aged Oud from Southeast Asia — every drop tells a story.",
+  keywords: [
+    "Meckella story",
+    "luxury perfume brand story",
+    "perfume heritage",
+    "natural fragrance ingredients",
+    "sustainable perfume",
+    "cruelty free fragrance",
+  ],
+  alternates: {
+    canonical: "https://www.meckellaluxe.com/about",
+  },
+  openGraph: {
+    title: "Our Story | Meckella Luxe",
+    description:
+      "The heritage, philosophy, and exquisite ingredient sourcing behind Meckella Luxe — a luxury fragrance house built on craftsmanship and presence.",
+    url: "https://www.meckellaluxe.com/about",
+    type: "website",
+  },
 };
 
 export default async function AboutPage() {

@@ -1,5 +1,23 @@
 import { client } from "@/sanity/lib/client";
 import { ProductList } from "@/components/ProductList";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Shop All Fragrances — The Collection",
+  description:
+    "Explore Meckella Luxe's complete range of premium Eau de Parfum. Each signature fragrance is meticulously crafted with sustainably sourced ingredients for 8+ hours of long-lasting scent.",
+  alternates: {
+    canonical: "https://www.meckellaluxe.com/products",
+  },
+  openGraph: {
+    title: "Shop All Fragrances — Meckella Luxe",
+    description:
+      "Explore Meckella Luxe's complete range of premium Eau de Parfum. Cruelty-free, long-lasting, sustainably sourced.",
+    url: "https://www.meckellaluxe.com/products",
+    type: "website",
+  },
+};
+
 
 async function getAllProducts() {
   const query = `*[_type == "product"] | order(_createdAt desc) {

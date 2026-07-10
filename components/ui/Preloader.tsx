@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export function Preloader() {
   const [isLoading, setIsLoading] = useState(true);
@@ -61,11 +62,9 @@ export function Preloader() {
                 {/* Bottle Label */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center z-20 drop-shadow-md">
                   <div className="flex items-center -ml-1">
-                    <span className="font-serif text-[32px] leading-none tracking-tighter text-[#0B0B0B]">M</span>
-                    <span className="font-serif text-[28px] leading-none tracking-tighter text-[#0B0B0B] -ml-1">C</span>
+                    <Image src={"/logo.svg"} alt="" width={50} height={40}/>
                   </div>
-                  <span className="font-sans text-[6px] tracking-[0.2em] text-[#0B0B0B] uppercase font-bold mt-1">Meckella</span>
-                </div>
+               </div>
 
                 {/* Bottle Highlight (Glass effect) */}
                 <div className="absolute top-1 bottom-1 left-2 w-2 bg-white/10 blur-[2px] rounded-full"></div>

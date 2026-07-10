@@ -5,7 +5,17 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Preloader } from "@/components/ui/Preloader";
 
-export default function ClientLayout({ children, announcements = [] }: { children: React.ReactNode, announcements?: string[] }) {
+type SocialLink = { platform: string; url: string };
+
+export default function ClientLayout({
+  children,
+  announcements = [],
+  socialLinks = [],
+}: {
+  children: React.ReactNode;
+  announcements?: string[];
+  socialLinks?: SocialLink[];
+}) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
 
@@ -20,7 +30,8 @@ export default function ClientLayout({ children, announcements = [] }: { childre
       <main className={`flex-1 bg-background ${announcements && announcements.length > 0 ? "pt-[120px]" : "pt-24"}`}>
         {children}
       </main>
-      <Footer />
+      <Footer socialLinks={socialLinks} />
     </>
   );
 }
+

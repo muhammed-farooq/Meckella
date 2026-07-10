@@ -5,6 +5,9 @@ import { Accordion } from "@/components/ui/Accordion";
 import { Button } from "@/components/ui/Button";
 import { client } from "@/sanity/lib/client";
 import { HowToUse } from "@/components/ui/HowToUse";
+import type { Metadata } from "next";
+
+const BASE_URL = "https://www.meckellaluxe.com";
 
 async function getProduct(slug: string) {
   const query = `*[_type == "product" && slug.current == $slug][0] {
@@ -31,6 +34,65 @@ async function getProduct(slug: string) {
     return null;
   }
 }
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const product = await getProduct(resolvedParams.slug);
+
+  if (!product) {
+    return {
+      title: "Product Not Found",
+      description: "This fragrance could not be located.",
+    };
+  }
+
+  const scentKeywords = [
+    ...(product.scentProfile || []),
+    ...(product.topNotes || []),
+    ...(product.middleNotes || []),
+    ...(product.baseNotes || []),
+  ].join(", ");
+
+  const description = product.description
+    ? `${product.description.slice(0, 130)}…`
+    : `Shop ${product.name} by Meckella Luxe — a premium Eau de Parfum with notes of ${scentKeywords}. Long-lasting, cruelty-free luxury fragrance.`;
+
+  return {
+    title: `${product.name} — Premium Eau de Parfum`,
+    description,
+    keywords: [
+      product.name,
+      "Meckella Luxe",
+      "luxury perfume",
+      "Eau de Parfum",
+      ...(product.scentProfile || []),
+    ],
+    alternates: {
+      canonical: `${BASE_URL}/products/${resolvedParams.slug}`,
+    },
+    openGraph: {
+      title: `${product.name} | Meckella Luxe`,
+      description,
+      url: `${BASE_URL}/products/${resolvedParams.slug}`,
+      type: "website",
+      images: product.imageUrl
+        ? [{ url: product.imageUrl, width: 800, height: 1000, alt: product.name }]
+        : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.name} | Meckella Luxe`,
+      description,
+      images: product.imageUrl ? [product.imageUrl] : [],
+    },
+  };
+}
+
+
 
 export default async function ProductDetailsPage({ params, searchParams }: { params: any, searchParams?: any }) {
   // In newer Next.js versions, params might behave as a promise

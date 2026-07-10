@@ -3,8 +3,26 @@ import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 
 export const metadata = {
-  title: "Journal - Meckella Luxe",
-  description: "Insights, stories, and musings from the world of Meckella.",
+  title: "The Journal — Insights from the World of Luxury Perfumery",
+  description:
+    "Explore The Meckella Journal — stories, insights, and musings on luxury fragrances, the art of perfumery, and the lifestyle of the bold.",
+  keywords: [
+    "perfume journal",
+    "fragrance blog",
+    "luxury perfume articles",
+    "Meckella journal",
+    "perfumery stories",
+  ],
+  alternates: {
+    canonical: "https://www.meckellaluxe.com/blog",
+  },
+  openGraph: {
+    title: "The Journal | Meckella Luxe",
+    description:
+      "Musings on luxury, the art of perfumery, and the lifestyle of the bold.",
+    url: "https://www.meckellaluxe.com/blog",
+    type: "website",
+  },
 };
 
 async function getPosts() {
