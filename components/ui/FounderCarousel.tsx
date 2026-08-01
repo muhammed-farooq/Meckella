@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { sanityImage } from "@/lib/utils";
 
 interface Founder {
   name: string;
@@ -44,9 +45,11 @@ export function FounderCarousel({ founders }: { founders: Founder[] }) {
             >
               {currentFounder.imageUrl ? (
                 <Image
-                  src={currentFounder.imageUrl}
+                  src={sanityImage(currentFounder.imageUrl, { w: 700, q: 80 })}
                   alt={currentFounder.name}
                   fill
+                  sizes="(max-width: 1024px) 100vw, 42vw"
+                  quality={80}
                   className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                 />
               ) : (

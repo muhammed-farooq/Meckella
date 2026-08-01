@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/sanity/lib/client";
+import { sanityImage } from "@/lib/utils";
 
 export const metadata = {
   title: "The Journal — Insights from the World of Luxury Perfumery",
@@ -62,9 +63,11 @@ export default async function BlogPage() {
                 <div className="aspect-[4/5] bg-[#1A1A1A] relative overflow-hidden">
                   {post.imageUrl ? (
                     <Image
-                      src={post.imageUrl}
+                      src={sanityImage(post.imageUrl, { w: 600, q: 80 })}
                       alt={post.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                      quality={80}
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (

@@ -6,6 +6,7 @@ import { InfiniteMarquee } from "@/components/ui/InfiniteMarquee";
 import { SplitText } from "@/components/ui/SplitText";
 import { HeroCrossfade } from "@/components/ui/HeroCrossfade";
 import { CollectionShowcase } from "@/components/ui/CollectionShowcase";
+import { sanityImage } from "@/lib/utils";
 
 import { client } from "@/sanity/lib/client";
 
@@ -120,9 +121,11 @@ export default async function Home() {
                 <div className="absolute inset-0 z-10 bg-black/40 group-hover:bg-black/20 transition-colors duration-700" />
                 {banner.imageUrl && (
                   <Image
-                    src={banner.imageUrl}
+                    src={sanityImage(banner.imageUrl, { w: 800, q: 78 })}
                     alt={banner.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    quality={78}
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-[1200ms]"
                   />
                 )}
@@ -166,9 +169,11 @@ export default async function Home() {
                     <div className="absolute inset-0 z-10 bg-gradient-to-t from-background via-background/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-700" />
                     {mood.imageUrl && (
                       <Image
-                        src={mood.imageUrl}
+                        src={sanityImage(mood.imageUrl, { w: 900, q: 78 })}
                         alt={mood.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        quality={78}
                         className="object-cover object-center group-hover:scale-105 transition-transform duration-1000"
                       />
                     )}

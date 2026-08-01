@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { client } from "@/sanity/lib/client";
 import { HowToUse } from "@/components/ui/HowToUse";
 import type { Metadata } from "next";
+import { sanityImage } from "@/lib/utils";
 
 const BASE_URL = "https://www.meckellaluxe.com";
 
@@ -125,9 +126,11 @@ export default async function ProductDetailsPage({ params, searchParams }: { par
           <div className="lg:sticky lg:top-32 aspect-[3/4] bg-[#1A1A1A] w-full overflow-hidden">
             {product.imageUrl ? (
               <Image
-                src={product.imageUrl}
+                src={sanityImage(product.imageUrl, { w: 800, q: 85 })}
                 alt={product.name}
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                quality={85}
                 className="object-cover object-center"
                 priority
               />
@@ -270,11 +273,12 @@ export default async function ProductDetailsPage({ params, searchParams }: { par
                       />
                     ) : (
                       <Image
-                        src={media.url}
+                        src={sanityImage(media.url, { w: 1200, q: 80 })}
                         alt={`${product.name} Media ${index + 1}`}
                         width={1200}
                         height={675}
-                        sizes="100vw"
+                        sizes="(max-width: 768px) 100vw, 80vw"
+                        quality={80}
                         style={{ width: '100%', height: 'auto' }}
                         className="group-hover:scale-105 transition-transform duration-[1200ms]"
                       />

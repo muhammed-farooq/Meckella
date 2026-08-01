@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { sanityImage } from "@/lib/utils";
 
 interface HeroCrossfadeProps {
   images: string[];
@@ -11,24 +12,34 @@ interface HeroCrossfadeProps {
 export function HeroCrossfade({ images }: HeroCrossfadeProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loadedMap, setLoadedMap] = useState<Record<number, boolean>>({ 0: false });
+  const prefetchedRef = useRef<Set<number>>(new Set());
 
-  // Preload ALL images on mount so they are cached before their slide appears
+  // Lazily prefetch only the NEXT slide ~2 s before it appears.
+  // This avoids hammering the network with all images at once on slow connections.
   useEffect(() => {
-    if (!images || images.length === 0) return;
-    images.forEach((src, i) => {
+    if (!images || images.length <= 1) return;
+
+    const nextIndex = (currentIndex + 1) % images.length;
+    if (prefetchedRef.current.has(nextIndex)) return;
+
+    const timer = setTimeout(() => {
       const img = new window.Image();
-      img.src = src;
-      img.onload = () =>
-        setLoadedMap((prev) => ({ ...prev, [i]: true }));
-    });
-  }, [images]);
+      img.src = sanityImage(images[nextIndex], { w: 1920, q: 70 });
+      img.onload = () => {
+        prefetchedRef.current.add(nextIndex);
+        setLoadedMap((prev) => ({ ...prev, [nextIndex]: true }));
+      };
+    }, 2000); // start prefetch 2 s after current slide becomes active
+
+    return () => clearTimeout(timer);
+  }, [currentIndex, images]);
 
   useEffect(() => {
     if (!images || images.length <= 1) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 6000); // 6 seconds per slide for a slow, cinematic feel
+    }, 6000);
 
     return () => clearInterval(interval);
   }, [images]);
@@ -41,22 +52,6 @@ export function HeroCrossfade({ images }: HeroCrossfadeProps) {
 
   return (
     <div className="absolute inset-0">
-      {/* Hidden preload layer — renders all images off-screen so the browser
-          fetches & caches them before they are needed for the crossfade */}
-      <div aria-hidden className="sr-only">
-        {images.slice(1).map((src, i) => (
-          <Image
-            key={src}
-            src={src}
-            alt=""
-            fill
-            sizes="1px"
-            priority          // tell Next.js / browser to fetch these eagerly
-            className="opacity-0 pointer-events-none"
-          />
-        ))}
-      </div>
-
       <AnimatePresence mode="sync">
         <motion.div
           key={currentIndex}
@@ -67,10 +62,11 @@ export function HeroCrossfade({ images }: HeroCrossfadeProps) {
           className="absolute inset-0"
         >
           <Image
-            src={images[currentIndex]}
+            src={sanityImage(images[currentIndex], { w: 1920, q: 70 })}
             alt="Hero Background"
             fill
             sizes="100vw"
+            quality={70}
             className="object-cover opacity-50"
             priority={currentIndex === 0}
             onLoad={() =>
@@ -82,4 +78,3 @@ export function HeroCrossfade({ images }: HeroCrossfadeProps) {
     </div>
   );
 }
-

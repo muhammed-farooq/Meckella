@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { client } from "@/sanity/lib/client";
 import { FounderCarousel } from "@/components/ui/FounderCarousel";
+import { sanityImage } from "@/lib/utils";
 
 async function getAboutPageData() {
   const query = `*[_type == "aboutPage"][0] {
@@ -81,9 +82,11 @@ export default async function AboutPage() {
         <div className="absolute inset-0 bg-[#1A1A1A]">
           {headerBg ? (
             <Image
-              src={headerBg}
+              src={sanityImage(headerBg, { w: 1920, q: 75 })}
               alt={pageTitle}
               fill
+              sizes="100vw"
+              quality={75}
               className="object-cover opacity-60"
               priority
             />
@@ -122,9 +125,11 @@ export default async function AboutPage() {
             <div className="order-1 lg:order-2 aspect-[4/5] bg-[#1A1A1A] relative group overflow-hidden">
               {ingredients.imageUrl ? (
                 <Image
-                  src={ingredients.imageUrl}
+                  src={sanityImage(ingredients.imageUrl, { w: 800, q: 80 })}
                   alt="Raw Ingredients"
                   fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  quality={80}
                   className="object-cover transition-transform duration-[1500ms] group-hover:scale-105"
                 />
               ) : (

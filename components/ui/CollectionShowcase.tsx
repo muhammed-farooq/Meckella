@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { sanityImage } from "@/lib/utils";
 
 interface Product {
   name: string;
@@ -48,7 +49,7 @@ export function CollectionShowcase({ products }: CollectionShowcaseProps) {
       </div>
 
       {/* Horizontal scroll container on mobile/tablet, flex accordion on desktop */}
-      <div className="w-full flex flex-row md:flex-row overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none scrollbar-hide max-w-[1600px] mx-auto px-[20px] lg:px-[70px] gap-6 md:gap-0 h-[520px] md:h-[70vh] items-stretch">
+      <div className="w-full flex flex-row overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none scrollbar-hide max-w-[1600px] mx-auto px-[20px] lg:px-[70px] gap-4 sm:gap-6 md:gap-0 h-[480px] sm:h-[520px] md:h-[70vh] items-stretch">
         {products.slice(0, 5).map((product, index) => {
           const isHovered = hoveredIndex === index;
           const bgGradient = "bg-gradient-to-t from-[#333] to-transparent";
@@ -59,7 +60,7 @@ export function CollectionShowcase({ products }: CollectionShowcaseProps) {
               key={product.slug}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className={`relative flex-shrink-0 md:flex-shrink rounded-2xl md:rounded-none overflow-hidden transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer group snap-center w-[80vw] max-w-[300px] md:w-auto h-full ${isHovered ? "md:flex-[2.5]" : hoveredIndex !== null ? "md:flex-[0.8] opacity-50 grayscale" : "md:flex-1"
+              className={`relative flex-shrink-0 md:flex-shrink rounded-2xl md:rounded-none overflow-hidden transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer group snap-center w-[72vw] max-w-[260px] sm:w-[75vw] sm:max-w-[290px] md:w-auto h-full ${isHovered ? "md:flex-[2.5]" : hoveredIndex !== null ? "md:flex-[0.8] opacity-50 grayscale" : "md:flex-1"
                 }`}
             >
               {/* Background Color Match */}
@@ -71,18 +72,20 @@ export function CollectionShowcase({ products }: CollectionShowcaseProps) {
                 {/* Bottle Image */}
                 {product.imageUrl && (
                   <motion.div
-                    className="relative w-full h-[55%] md:h-[60%] flex items-end justify-center mb-6"
+                    className="relative w-full h-[50%] md:h-[60%] flex items-end justify-center mb-4 md:mb-6"
                     animate={{
                       scale: isHovered ? 1.15 : 1,
                       y: isHovered ? -20 : 0
                     }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                   >
-                    <div className="relative w-[180px] h-[250px] md:w-[220px] md:h-[300px]">
+                    <div className="relative w-[130px] h-[190px] sm:w-[155px] sm:h-[220px] md:w-[220px] md:h-[300px]">
                       <Image
-                        src={product.imageUrl}
+                        src={sanityImage(product.imageUrl, { w: 500, q: 80 })}
                         alt={product.name}
                         fill
+                        sizes="(max-width: 768px) 75vw, 25vw"
+                        quality={80}
                         className="object-contain object-bottom drop-shadow-[0_20px_30px_rgba(0,0,0,0.8)]"
                       />
                     </div>
@@ -95,7 +98,7 @@ export function CollectionShowcase({ products }: CollectionShowcaseProps) {
                     {product.name}
                   </h3>
 
-                  <div className={`overflow-hidden transition-all duration-700 ease-out flex justify-center ${isHovered ? "max-h-24 opacity-100 mt-4" : "md:max-h-0 md:opacity-0 max-h-24 opacity-100 mt-4"}`}>
+                  <div className={`overflow-hidden transition-all duration-700 ease-out flex justify-center ${isHovered ? "max-h-24 opacity-100 mt-3" : "max-h-0 opacity-0 mt-0 md:max-h-0 md:opacity-0"}`}>
                     <span className="uppercase tracking-[0.2em] text-xs border border-white/20 px-6 py-2 text-foreground backdrop-blur-md rounded-full hover:bg-white hover:text-black transition-colors">
                       Discover
                     </span>

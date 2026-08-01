@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PortableText } from "next-sanity";
 import { client } from "@/sanity/lib/client";
 import type { Metadata } from "next";
+import { sanityImage } from "@/lib/utils";
 
 const BASE_URL = "https://www.meckellaluxe.com";
 
@@ -94,9 +95,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           {post.imageUrl && (
             <div className="aspect-[16/9] w-full relative bg-[#1A1A1A] overflow-hidden mt-10">
               <Image
-                src={post.imageUrl}
+                src={sanityImage(post.imageUrl, { w: 1200, q: 80 })}
                 alt={post.title}
                 fill
+                sizes="(max-width: 768px) 100vw, 768px"
+                quality={80}
                 className="object-cover"
                 priority
               />

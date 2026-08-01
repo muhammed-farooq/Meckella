@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { sanityImage } from "@/lib/utils";
 
 interface ProductCardProps {
   name: string;
@@ -31,9 +32,11 @@ export function CardProduct({
       <Link href={`/products/${slug}`} className="block overflow-hidden relative aspect-[3/4] bg-[#1a1a1a]">
         {imageUrl ? (
           <Image
-            src={imageUrl}
+            src={sanityImage(imageUrl, { w: 600, q: 80 })}
             alt={name}
             fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            quality={80}
             className="object-cover transition-transform duration-[1200ms] group-hover:scale-110"
           />
         ) : (
