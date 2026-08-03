@@ -60,9 +60,8 @@ export function CollectionShowcase({ products }: CollectionShowcaseProps) {
               key={`desktop-${product.slug}`}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className={`relative flex-shrink overflow-hidden transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer group h-full ${
-                isHovered ? "flex-[2]" : hoveredIndex !== null ? "flex-[0.8] opacity-50 grayscale" : "flex-1"
-              }`}
+              className={`relative flex-shrink overflow-hidden transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer group h-full ${isHovered ? "flex-[2]" : hoveredIndex !== null ? "flex-[0.8] opacity-50 grayscale" : "flex-1"
+                }`}
             >
               {/* Background Color Match */}
               {/* <div className={`absolute inset-0 opacity-20 transition-opacity duration-700 ${isHovered ? "opacity-50" : ""} ${bgGradient}`} /> */}
@@ -141,7 +140,7 @@ export function CollectionShowcase({ products }: CollectionShowcaseProps) {
               {/* Foreground Content Docked at Bottom */}
               <Link href={`/products/${product.slug}`} className="absolute inset-0 z-20 flex flex-col justify-end p-6 sm:p-8 md:p-10 h-full">
                 <div className="text-center w-full flex flex-col items-center justify-end">
-                  <h3 className={`font-serif text-2xl sm:text-3xl mb-2 ${highlightText}`}>
+                  <h3 className={`font-serif text-2xl sm:text-3xl mb-2 text-accent-gold`}>
                     {product.name}
                   </h3>
 
