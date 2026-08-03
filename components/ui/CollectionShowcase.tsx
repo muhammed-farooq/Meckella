@@ -134,8 +134,8 @@ export function CollectionShowcase({ products }: CollectionShowcaseProps) {
               )}
 
               {/* Sophisticated Dark Gradient Overlays for Readability & Luxury Atmosphere */}
-              <div className="absolute inset-0 bg-black/20 z-10" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0B] via-[#0B0B0B]/60 via-40% to-transparent z-10 pointer-events-none" />
+              {/* <div className="absolute inset-0 bg-black/20 z-10" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0B] via-[#0B0B0B]/60 via-40% to-transparent z-10 pointer-events-none" /> */}
 
               {/* Foreground Content Docked at Bottom */}
               <Link href={`/products/${product.slug}`} className="absolute inset-0 z-20 flex flex-col justify-end p-6 sm:p-8 md:p-10 h-full">
